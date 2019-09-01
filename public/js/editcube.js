@@ -993,6 +993,24 @@ function filteredCube() {
 }
 
 function updateCubeList() {
+  var qsargFilters = new URLSearchParams(window.location.search);
+  var newFilter;
+  for (var key of qsargFilters.keys()) {
+    var values = qsargFilters.get(key).split(",");
+    for (var index = 0; index < values.length; index++) {
+      var value = values[index];
+      if (value.length > 0) {
+        var modifier = values[index][0];
+        value = value.substring(1);
+        newFilter = {
+          category: key,
+          value: value,
+          not: modifier === "-"
+        };
+        filters.push(newFilter);
+      }
+    }
+  }
   if (view == 'list') {
     $('#massEdit').text('Edit Selected');
   } else {
