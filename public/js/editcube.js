@@ -1013,6 +1013,18 @@ function updateCubeList() {
       break;
   }
   autocard_hide_card();
+  var qsargs = {};
+  filters.forEach(function(filter, index) {
+    if (!qsargs[filter.category]) {
+        qsargs[filter.category] = "";
+    }
+    var modifier = "+";
+    if (filter.not) {
+      modifier = "-";
+    }
+    qsargs[filter.category] += modifier + filter.value + ",";
+  });
+  window.history.pushState({}, '', window.location.href.split('?')[0] + "?" + $.param(qsargs));
 }
 
 function renderListView() {
