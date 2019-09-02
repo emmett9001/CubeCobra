@@ -989,6 +989,42 @@ function filteredCube() {
   return res;
 }
 
+function setFilterQsargs() {
+  var qsargs = {};
+  filters.forEach(function(filter, index) {
+    if (!qsargs[filter.category]) {
+        qsargs[filter.category] = "";
+    }
+    var modifier = "+";
+    if (filter.not) {
+      modifier = "-";
+    }
+    qsargs[filter.category] += modifier + filter.value + ",";
+  });
+  window.history.pushState({}, '', window.location.href.split('?')[0] + "?" + $.param(qsargs));
+}
+
+function buildFiltersFromQsargs() {
+  var qsargFilters = new URLSearchParams(window.location.search);
+  var newFilter;
+  for (var key of qsargFilters.keys()) {
+    var values = qsargFilters.get(key).split(",");
+    for (var index = 0; index < values.length; index++) {
+      var value = values[index];
+      if (value.length > 0) {
+        var modifier = values[index][0];
+        value = value.substring(1);
+        newFilter = {
+          category: key,
+          value: value,
+          not: modifier === "-"
+        };
+        filters.push(newFilter);
+      }
+    }
+  }
+}
+
 function updateCubeList() {
   if (view == 'list') {
     $('#massEdit').text('Edit Selected');
@@ -1010,18 +1046,7 @@ function updateCubeList() {
       break;
   }
   autocard_hide_card();
-  var qsargs = {};
-  filters.forEach(function(filter, index) {
-    if (!qsargs[filter.category]) {
-        qsargs[filter.category] = "";
-    }
-    var modifier = "+";
-    if (filter.not) {
-      modifier = "-";
-    }
-    qsargs[filter.category] += modifier + filter.value + ",";
-  });
-  window.history.pushState({}, '', window.location.href.split('?')[0] + "?" + $.param(qsargs));
+  setFilterQsargs();
 }
 
 function renderListView() {
@@ -1793,24 +1818,6 @@ function updateFilters() {
 }
 
 function buildFilterArea() {
-  var qsargFilters = new URLSearchParams(window.location.search);
-  var newFilter;
-  for (var key of qsargFilters.keys()) {
-    var values = qsargFilters.get(key).split(",");
-    for (var index = 0; index < values.length; index++) {
-      var value = values[index];
-      if (value.length > 0) {
-        var modifier = values[index][0];
-        value = value.substring(1);
-        newFilter = {
-          category: key,
-          value: value,
-          not: modifier === "-"
-        };
-        filters.push(newFilter);
-      }
-    }
-  }
   sort_categories = getSorts();
   var sorthtml = "";
   sort_categories.forEach(function(category, index) {
@@ -1837,6 +1844,7 @@ window.onload = function() {
   if (prev_handler) {
     prev_handler();
   }
+  buildFiltersFromQsargs();
   buildFilterArea();
   updateCubeList();
   activateTags();
