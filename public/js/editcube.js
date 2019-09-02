@@ -181,7 +181,6 @@ if (canEdit) {
       selected: groupSelect,
       filters: filterobj,
       updated: updated,
-      token: $('#edittoken').val()
     };
 
     fetch("/cube/api/updatecards/" + $('#cubeID').val(), {
@@ -290,7 +289,6 @@ if (canEdit) {
     let data = {
       src: modalSelect,
       updated: updated,
-      token: document.getElementById("edittoken").value
     };
     fetch("/cube/api/updatecard/" + $('#cubeID').val(), {
       method: "POST",
@@ -324,7 +322,6 @@ if (canEdit) {
     temp_sorts[1] = document.getElementById('secondarySortSelect').value;
     let data = {
       sorts: temp_sorts,
-      token: document.getElementById("edittoken").value
     };
     fetch("/cube/api/savesorts/" + $('#cubeID').val(), {
       method: "POST",
@@ -1220,7 +1217,6 @@ function renderListView() {
         let data = {
           src: cube[index],
           updated: updated,
-          token: document.getElementById("edittoken").value
         };
         fetch("/cube/api/updatecard/" + $('#cubeID').val(), {
           method: "POST",
@@ -1251,7 +1247,6 @@ function renderListView() {
         let data = {
           src: cube[index],
           updated: updated,
-          token: document.getElementById("edittoken").value
         };
         fetch("/cube/api/updatecard/" + $('#cubeID').val(), {
           method: "POST",
@@ -1282,7 +1277,6 @@ function renderListView() {
         let data = {
           src: cube[index],
           updated: updated,
-          token: document.getElementById("edittoken").value
         };
         fetch("/cube/api/updatecard/" + $('#cubeID').val(), {
           method: "POST",
@@ -1313,7 +1307,6 @@ function renderListView() {
         let data = {
           src: cube[index],
           updated: updated,
-          token: document.getElementById("edittoken").value
         };
         fetch("/cube/api/updatecard/" + $('#cubeID').val(), {
           method: "POST",
@@ -1347,7 +1340,6 @@ function renderListView() {
         let data = {
           src: cube[index],
           updated: updated,
-          token: document.getElementById("edittoken").value
         };
         fetch("/cube/api/updatecard/" + $('#cubeID').val(), {
           method: "POST",
@@ -1381,7 +1373,6 @@ function renderListView() {
         let data = {
           src: cube[index],
           updated: updated,
-          token: document.getElementById("edittoken").value
         };
         fetch("/cube/api/updatecard/" + $('#cubeID').val(), {
           method: "POST",
